@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -24,7 +25,6 @@
   </header>
 
   <main>
-    <!-- Trang chủ / Mua sắm -->
     <section id="home" class="page active">
       <div class="hero">
         <div>
@@ -69,20 +69,18 @@
       </div>
     </section>
 
-    <!-- Trang đăng nhập / Nhập mã người tham gia -->
     <section id="login" class="page">
       <div class="auth-card">
         <h2>Đăng nhập ShopLab</h2>
         <p>Đây là biểu mẫu thử nghiệm trong IAO Security Lab.</p>
 
         <form id="loginForm">
-          <label>Mã người tham gia</label>
-          <input
-            id="participantInput"
-            type="text"
-            placeholder="USER-001"
-            required
-          >
+          <label>Tên đăng nhập thử nghiệm</label>
+          <input type="text" placeholder="Nhập tài khoản giả lập" required>
+
+          <label>Mật khẩu thử nghiệm</label>
+          <input type="password" placeholder="Không sử dụng mật khẩu thật" required>
+
           <button type="submit">Tiếp tục mô phỏng</button>
         </form>
 
@@ -92,21 +90,21 @@
       </div>
     </section>
 
-    <!-- Trang xác minh OTP giả lập -->
     <section id="otp" class="page">
       <div class="auth-card">
         <h2>Xác minh bảo mật</h2>
-        
+        <p>Đây là màn hình OTP giả lập. Không nhập mã OTP thật.</p>
+
         <form id="otpForm">
-          <p>Đây là bước xác minh giả lập.</p>
-          <button type="submit">
-            Xác nhận mô phỏng
-          </button>
+          <label>Mã xác minh thử nghiệm</label>
+          <input type="text" inputmode="numeric"
+                 maxlength="6" placeholder="000000" required>
+
+          <button type="submit">Xác nhận mô phỏng</button>
         </form>
       </div>
     </section>
 
-    <!-- Trang kết quả -->
     <section id="result" class="page">
       <div class="auth-card result">
         <div class="result-icon">🛡️</div>
