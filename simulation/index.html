@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopLab - IAO Security Simulation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="lab-notice">
+    IAO SECURITY LAB · MÔI TRƯỜNG MÔ PHỎNG ĐƯỢC ỦY QUYỀN
+  </div>
+
+  <header class="header">
+    <div class="logo">Shop<span>Lab</span></div>
+    <div class="search">
+      <input type="search" placeholder="Tìm kiếm sản phẩm...">
+      <button type="button">Tìm kiếm</button>
+    </div>
+    <button class="login-btn" onclick="showPage('login')">
+      Đăng nhập
+    </button>
+  </header>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div>
+          <h1>Mua sắm thông minh</h1>
+          <p>Khám phá những ưu đãi hấp dẫn hôm nay.</p>
+          <button onclick="showPage('login')">
+            Khám phá ngay
+          </button>
+        </div>
+        <div class="hero-icon">🛍️</div>
+      </div>
+
+      <h2>Sản phẩm nổi bật</h2>
+
+      <div class="products">
+        <div class="product">
+          <div class="product-image">🎧</div>
+          <h3>Tai nghe Bluetooth</h3>
+          <p>299.000đ</p>
+          <button onclick="showPage('login')">
+            Mua ngay
+          </button>
+        </div>
+
+        <div class="product">
+          <div class="product-image">⌚</div>
+          <h3>Đồng hồ thông minh</h3>
+          <p>599.000đ</p>
+          <button onclick="showPage('login')">
+            Mua ngay
+          </button>
+        </div>
+
+        <div class="product">
+          <div class="product-image">📱</div>
+          <h3>Phụ kiện điện thoại</h3>
+          <p>149.000đ</p>
+          <button onclick="showPage('login')">
+            Mua ngay
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="login" class="page">
+      <div class="auth-card">
+        <h2>Đăng nhập ShopLab</h2>
+        <p>Đây là biểu mẫu thử nghiệm trong IAO Security Lab.</p>
+
+        <form id="loginForm">
+          <label>Tên đăng nhập thử nghiệm</label>
+          <input type="text" placeholder="Nhập tài khoản giả lập" required>
+
+          <label>Mật khẩu thử nghiệm</label>
+          <input type="password" placeholder="Không sử dụng mật khẩu thật" required>
+
+          <button type="submit">Tiếp tục mô phỏng</button>
+        </form>
+
+        <p class="back" onclick="showPage('home')">
+          ← Quay lại trang chủ
+        </p>
+      </div>
+    </section>
+
+    <section id="otp" class="page">
+      <div class="auth-card">
+        <h2>Xác minh bảo mật</h2>
+        <p>Đây là màn hình OTP giả lập. Không nhập mã OTP thật.</p>
+
+        <form id="otpForm">
+          <label>Mã xác minh thử nghiệm</label>
+          <input type="text" inputmode="numeric"
+                 maxlength="6" placeholder="000000" required>
+
+          <button type="submit">Xác nhận mô phỏng</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="result" class="page">
+      <div class="auth-card result">
+        <div class="result-icon">🛡️</div>
+        <h2>Bạn vừa hoàn thành mô phỏng!</h2>
+        <p>
+          Đây là bài kiểm tra nhận diện Phishing.
+          Website không liên quan đến Shopee và không xử lý
+          tài khoản hoặc OTP thật.
+        </p>
+        <button onclick="showPage('home')">Quay lại</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    IAO Security Lab · Educational Phishing Simulation
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
