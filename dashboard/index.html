@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IAO Security Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <section id="loginScreen" class="login-screen">
+    <div class="login-box">
+      <div class="brand">IAO <span>SECURITY</span></div>
+      <h2>Admin Dashboard</h2>
+      <p>Đăng nhập vào hệ thống giám sát.</p>
+
+      <form id="adminLogin">
+        <input
+          id="email"
+          type="email"
+          placeholder="Email quản trị"
+          required
+        >
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Mật khẩu"
+          required
+        >
+
+        <button type="submit">Đăng nhập</button>
+      </form>
+
+      <p id="loginError"></p>
+    </div>
+  </section>
+
+  <main id="dashboardScreen" hidden>
+
+    <aside class="sidebar">
+      <div class="brand">IAO <span>SECURITY</span></div>
+
+      <nav>
+        <a class="selected">▦ Overview</a>
+        <a href="#analytics">◷ Analytics</a>
+        <a href="#history">☷ Event History</a>
+      </nav>
+
+      <button id="logoutButton" class="logout">
+        Đăng xuất
+      </button>
+    </aside>
+
+    <section class="main-content">
+
+      <header class="topbar">
+        <div>
+          <h1>Security Monitoring</h1>
+          <p>IAO Phishing Simulation Laboratory</p>
+        </div>
+
+        <span id="connectionStatus">Connecting...</span>
+      </header>
+
+      <section class="stats">
+
+        <div class="stat-card">
+          <p>Total Participants</p>
+          <h2 id="participants">0</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Total Events</p>
+          <h2 id="totalEvents">0</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Demo Logins</p>
+          <h2 id="loginCount">0</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Completed</p>
+          <h2 id="completedCount">0</h2>
+        </div>
+
+      </section>
+
+      <section class="panel" id="analytics">
+        <h2>Activity Analytics</h2>
+        <canvas id="activityChart"></canvas>
+      </section>
+
+      <section class="panel" id="history">
+
+        <div class="history-header">
+          <h2>Event History</h2>
+
+          <select id="eventFilter">
+            <option value="">All Events</option>
+            <option value="page_visited">Page Visited</option>
+            <option value="login_page_opened">Login Opened</option>
+            <option value="demo_login_submitted">Demo Login</option>
+            <option value="otp_page_opened">OTP Opened</option>
+            <option value="demo_otp_submitted">Demo OTP</option>
+            <option value="simulation_completed">Completed</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Participant</th>
+                <th>Session ID</th>
+                <th>Event</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="eventTable">
+              <tr>
+                <td colspan="4">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+    </section>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
