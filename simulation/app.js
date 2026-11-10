@@ -1,33 +1,69 @@
 
-const SESSION_KEY = "iao_demo_session";
-const LOG_KEY = "iao_demo_events";
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const PUBLISHABLE_KEY = "YOUR_PUBLISHABLE_KEY";
 
-function createSessionId() {
-  return "SIM-" + crypto.randomUUID();
-}
+const EVENT_API =
+  `${SUPABASE_URL}/functions/v1/collect-event`;
+
+const SESSION_KEY = "iao_demo_session";
+const PARTICIPANT_KEY = "iao_participant";
 
 let sessionId = sessionStorage.getItem(SESSION_KEY);
 
 if (!sessionId) {
-  sessionId = createSessionId();
+  sessionId = crypto.randomUUID();
   sessionStorage.setItem(SESSION_KEY, sessionId);
 }
 
-function recordEvent(eventName) {
-  const events = JSON.parse(
-    localStorage.getItem(LOG_KEY) || "[]"
-  );
+// Tạo mã người tham gia giả lập
+let participantId = sessionStorage.getItem(PARTICIPANT_KEY);
 
-  events.push({
-    session_id: sessionId,
-    event: eventName,
-    timestamp: new Date().toISOString(),
-    simulation: true
-  });
+if (!participantId) {
+  participantId = "USER-" +
+    crypto.randomUUID().slice(0, 8).toUpperCase();
 
-  localStorage.setItem(LOG_KEY, JSON.stringify(events));
+  sessionStorage.setItem(PARTICIPANT_KEY, participantId);
 }
 
+// Gửi sự kiện về Supabase
+async function recordEvent(eventName) {
+  const allowedEvents = [
+    "page_visited",
+    "home_opened",
+    "login_page_opened",
+    "demo_login_submitted",
+    "otp_page_opened",
+    "demo_otp_submitted",
+    "simulation_completed"
+  ];
+
+  if (!allowedEvents.includes(eventName)) return;
+
+  try {
+    const response = await fetch(EVENT_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": PUBLISHABLE_KEY,
+        "Authorization": `Bearer ${PUBLISHABLE_KEY}`
+      },
+      body: JSON.stringify({
+        session_id: sessionId,
+        participant_id: participantId,
+        event: eventName
+      })
+    });
+
+    if (!response.ok) {
+      console.error("Event API error:", response.status);
+    }
+
+  } catch (error) {
+    console.error("Connection error:", error);
+  }
+}
+
+// Chuyển màn hình
 function showPage(pageId) {
   document.querySelectorAll(".page").forEach(page => {
     page.classList.remove("active");
@@ -35,40 +71,34 @@ function showPage(pageId) {
 
   document.getElementById(pageId).classList.add("active");
 
-  const eventMap = {
+  const events = {
     home: "home_opened",
     login: "login_page_opened",
     otp: "otp_page_opened",
     result: "simulation_completed"
   };
 
-  if (eventMap[pageId]) {
-    recordEvent(eventMap[pageId]);
+  if (events[pageId]) {
+    recordEvent(events[pageId]);
   }
 }
 
+// Gửi sự kiện đăng nhập demo
 document.getElementById("loginForm")
-  .addEventListener("submit", function(event) {
-    event.preventDefault();
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    // Không đọc hoặc lưu bất kỳ thông tin đăng nhập nào.
-    recordEvent("demo_login_submitted");
-
+    await recordEvent("demo_login_submitted");
     showPage("otp");
   });
 
+// Gửi sự kiện OTP demo
 document.getElementById("otpForm")
-  .addEventListener("submit", function(event) {
-    event.preventDefault();
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    // Không đọc hoặc lưu mã OTP.
-    recordEvent("demo_otp_submitted");
-
+    await recordEvent("demo_otp_submitted");
     showPage("result");
   });
 
-// Ghi nhận lượt truy cập trang mô phỏng.
 recordEvent("page_visited");
-
-// Chỉ phục vụ kiểm tra cục bộ.
-console.log("IAO Simulation Session:", sessionId);
